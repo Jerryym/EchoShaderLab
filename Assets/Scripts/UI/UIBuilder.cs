@@ -98,7 +98,7 @@ public class UIBuilder : MonoBehaviour
 
 		//添加按钮
 		CreateMenuButton(menuBar.transform, "FileBtn", "文件");
-		CreateMenuButton(menuBar.transform, "CreateBtn", "创建");
+		CreateMenuButton(menuBar.transform, "EditBtn", "编辑");
 		CreateMenuButton(menuBar.transform, "ShaderBtn", "着色");
 	}
 

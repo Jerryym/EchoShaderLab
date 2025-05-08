@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Menu>
+    <MenuItem name="File">
+        <SubItem label="新建" command="NewFile"/>
+        <SubItem label="打开" command="OpenFile"/>
+        <SubItem label="保存" command="SaveFile"/>
+        <SubItem label="导入" command="ImportModel"/>
+    </MenuItem>
+
+    <MenuItem name="Editor">
+        <SubItem label="立方体" command="CreateCube"/>
+        <SubItem label="球体" command="CreateSphere"/>
+    </MenuItem>
+
+    <MenuItem name="Shader">
+    </MenuItem>
+</Menu>
