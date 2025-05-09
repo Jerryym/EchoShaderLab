@@ -97,9 +97,9 @@ public class UIBuilder : MonoBehaviour
 		menuBar.AddComponent<Image>().color = Color.grey;
 
 		//添加按钮
-		CreateMenuButton(menuBar.transform, "FileBtn", "文件");
-		CreateMenuButton(menuBar.transform, "EditBtn", "编辑");
-		CreateMenuButton(menuBar.transform, "ShaderBtn", "着色");
+		//CreateMenuButton(menuBar.transform, "FileBtn", "文件");
+		//CreateMenuButton(menuBar.transform, "EditBtn", "编辑");
+		//CreateMenuButton(menuBar.transform, "ShaderBtn", "着色");
 	}
 
 	/// <summary>
