@@ -1,7 +1,5 @@
-using EchoShaderLab.Command;
 using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 using System.Xml;
 using TMPro;
 using UnityEngine;
@@ -22,15 +20,15 @@ namespace EchoShaderLab.UI
 		/// <summary>
 		/// 子菜单项列表
 		/// </summary>
-		public List<sSubItemData> Items = new List<sSubItemData>();
+		public List<SubItemData> Items = new List<SubItemData>();
 
-		public struct sSubItemData
+		public struct SubItemData
 		{
 			public string name;
 			public string label;
 			public string cmdName;
 
-			public sSubItemData(string name, string label, string cmdName)
+			public SubItemData(string name, string label, string cmdName)
 			{
 				this.name = name;
 				this.label = label;
@@ -100,7 +98,7 @@ namespace EchoShaderLab.UI
 					string name = item.Attributes["name"].Value;
 					string label = item.Attributes["label"].Value;
 					string command = item.Attributes["command"].Value;
-					menuItem.Items.Add(new MenuItemData.sSubItemData(name, label, command));
+					menuItem.Items.Add(new MenuItemData.SubItemData(name, label, command));
 				}
 				m_MenuItems.Add(menuItem);
 			}
@@ -109,10 +107,47 @@ namespace EchoShaderLab.UI
 		/// <summary>
 		/// 创建菜单栏
 		/// </summary>
-		/// <exception cref="NotImplementedException"></exception>
 		private void CreateMenu()
 		{
-			
+			for (int i = 0; i < m_MenuItems.Count; i++)
+			{
+				var	menuItem = m_MenuItems[i];
+				//创建一级按钮
+				GameObject topBtn = CreateButton(menuItem.groupName, menuItem.groupLabel, menuBar, false, null);
+				int index = i;
+				topBtn.GetComponent<Button>().onClick.AddListener(() => OnTopMenuClick(index));
+
+				//创建子菜单面板
+				GameObject dropdownPanel = CreateDropdownPanel(topBtn.transform, menuItem.groupName);
+				dropdownPanel.SetActive(false);
+				m_DropDownList.Add(dropdownPanel);
+
+				//创建子菜单项按钮
+				foreach (var subItem in menuItem.Items)
+				{
+					CreateButton(subItem.name, subItem.label, dropdownPanel.transform, true, () =>
+					{
+						Debug.Log($"Execute Command: {subItem.cmdName}");
+						HideAllDropdowns();
+					});
+				}
+			}
+
+			//重置子菜单高度
+			for (int i = 0; i < m_DropDownList.Count; i++)
+			{
+				GameObject dropdownPanel = m_DropDownList[i];
+				RectTransform dropRT = dropdownPanel.GetComponent<RectTransform>();
+				VerticalLayoutGroup layout = dropdownPanel.GetComponent<VerticalLayoutGroup>();
+
+				float totalHeight = layout.padding.top + layout.padding.bottom;
+				foreach (Transform child in dropdownPanel.transform)
+				{
+					RectTransform childRT = child.GetComponent<RectTransform>();
+					totalHeight += childRT.sizeDelta.y + layout.spacing;
+				}
+				dropRT.sizeDelta = new Vector2(dropRT.sizeDelta.x, totalHeight);
+			}
 		}
 
 		/// <summary>
@@ -127,15 +162,28 @@ namespace EchoShaderLab.UI
 		{
 			GameObject btnGO = Instantiate(menuBtnPrefab, parent);
 			btnGO.name = name;
-			if (!bSubItem)
+
+			RectTransform rt = btnGO.GetComponent<RectTransform>();
+			rt.sizeDelta = (bSubItem == true) ? new Vector2(120, 35) : new Vector2(150, 40);
+
+			LayoutElement layoutElement = btnGO.GetComponent<LayoutElement>();
+			if (layoutElement == null)
 			{
-				RectTransform panelRT = btnGO.GetComponent<RectTransform>();
-				panelRT.sizeDelta = new Vector2(120, 35);
+				layoutElement = btnGO.AddComponent<LayoutElement>();
 			}
+			layoutElement.preferredHeight = (bSubItem == true) ? 35 : 40;
 
 			TextMeshProUGUI tmp = btnGO.GetComponentInChildren<TextMeshProUGUI>();
 			tmp.text = label;
-			tmp.fontSize = bSubItem ? 18 : 24;
+			tmp.fontSize = (bSubItem == true) ? 24 : 32;
+			tmp.alignment = TextAlignmentOptions.Center;
+			if (bSubItem)
+			{
+				tmp.color = Color.white;
+				Image btnImage = btnGO.GetComponent<Image>();
+				btnImage.color = new Color(0.2f, 0.2f, 0.2f, 0.95f);
+			}
+
 			if (onClick != null)
 			{
 				btnGO.GetComponent<Button>().onClick.AddListener(() => onClick());
@@ -143,12 +191,69 @@ namespace EchoShaderLab.UI
 			return btnGO;
 		}
 
+		/// <summary>
+		/// 创建子菜单面板
+		/// </summary>
+		/// <param name="topBtn"></param>
+		/// <returns></returns>
+		private GameObject CreateDropdownPanel(Transform topBtn, string name)
+		{
+			GameObject dropdownPanel = new GameObject("DropdownPanel_" + name, typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(Image));
+			dropdownPanel.transform.SetParent(menuBar.parent, false);
 
+			RectTransform dropRT = dropdownPanel.GetComponent<RectTransform>();
+			dropRT.pivot = new Vector2(0, 1);
+			dropRT.anchorMin = new Vector2(0, 1);
+			dropRT.anchorMax = new Vector2(0, 1);
+			dropRT.sizeDelta = new Vector2(150, 0);
+
+			Image panelImage = dropdownPanel.GetComponent<Image>();
+			panelImage.color = new Color(0.2f, 0.2f, 0.2f, 0.95f);
+
+			VerticalLayoutGroup layout = dropdownPanel.GetComponent<VerticalLayoutGroup>();
+			layout.childAlignment = TextAnchor.UpperLeft;
+			layout.childForceExpandWidth = true;
+			layout.childForceExpandHeight = false;
+			layout.spacing = 2;
+			layout.padding = new RectOffset(10, 10, 10, 10);
+
+			return dropdownPanel;
+		}
+
+		/// <summary>
+		/// 单击一级菜单, 显示下拉菜单
+		/// </summary>
+		/// <param name="index"></param>
+		private void OnTopMenuClick(int index)
+		{
+			//隐藏所有下拉菜单
+			HideAllDropdowns();
+
+			if (index < m_DropDownList.Count)
+			{
+				var dropdownPanel = m_DropDownList[index];
+				dropdownPanel.SetActive(true);
+
+				//更新下拉菜单位置
+				Transform topBtn = menuBar.GetChild(index);
+				RectTransform btnRT = topBtn.GetComponent<RectTransform>();
+				RectTransform dropdownRT = dropdownPanel.GetComponent<RectTransform>();
+
+				float dropdownWidth = dropdownRT.rect.width;
+				Vector2 btnPos = btnRT.anchoredPosition;
+				dropdownRT.anchoredPosition = new Vector2(btnPos.x - (dropdownWidth / 2), -60);
+			}
+		}
+
+		/// <summary>
+		/// 隐藏所有下拉菜单
+		/// </summary>
 		private void HideAllDropdowns()
 		{
 			foreach (var dropdownPanel in m_DropDownList)
+			{
 				dropdownPanel.SetActive(false);
-			m_DropDownList.Clear();
+			}
 		}
 
 	}

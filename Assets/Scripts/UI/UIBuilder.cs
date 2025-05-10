@@ -95,11 +95,6 @@ public class UIBuilder : MonoBehaviour
 
 		//背景颜色
 		menuBar.AddComponent<Image>().color = Color.grey;
-
-		//添加按钮
-		//CreateMenuButton(menuBar.transform, "FileBtn", "文件");
-		//CreateMenuButton(menuBar.transform, "EditBtn", "编辑");
-		//CreateMenuButton(menuBar.transform, "ShaderBtn", "着色");
 	}
 
 	/// <summary>
@@ -135,46 +130,6 @@ public class UIBuilder : MonoBehaviour
 		//属性控制
 		GameObject inspectorPanel = CreatePanel("InspectorPanel", mainContent.transform);
 		InitInspectorPanel(inspectorPanel);
-	}
-
-	/// <summary>
-	/// 创建菜单栏按钮
-	/// </summary>
-	/// <param name="parentTransform"></param>
-	/// <param name="BtnName"></param>
-	/// <param name="BtnLabel"></param>
-	private void CreateMenuButton(Transform parentTransform, string BtnName, string BtnLabel)
-	{
-		GameObject btnGO = new GameObject(BtnName, typeof(Button));
-		btnGO.transform.SetParent(parentTransform, false);
-
-		Image image = btnGO.AddComponent<Image>();
-		image.color = Color.black;
-
-		RectTransform rectTransform = btnGO.GetComponent<RectTransform>();
-		rectTransform.sizeDelta = new Vector2(100, 40);
-		rectTransform.anchorMin = new Vector2(0, 0.5f);
-		rectTransform.anchorMax = new Vector2(0, 0.5f);
-		rectTransform.pivot = new Vector2(0, 0.5f);
-
-		//添加Label
-		GameObject btnLabelGO = new GameObject("Label");
-		btnLabelGO.transform.SetParent(btnGO.transform, false);
-		
-		TextMeshProUGUI label = btnLabelGO.AddComponent<TextMeshProUGUI>();
-		label.text = BtnLabel;
-		label.alignment = TextAlignmentOptions.Center;
-		label.fontSize = 24;
-		label.color = Color.white;
-		TMP_FontAsset btnFont = Resources.Load<TMP_FontAsset>("Fonts & Materials/msyh");
-		if (btnFont != null)
-			label.font = btnFont;
-
-		RectTransform labelRT = label.GetComponent<RectTransform>();
-		labelRT.anchorMin = Vector2.zero;
-		labelRT.anchorMax = Vector2.one;
-		labelRT.offsetMin = Vector2.zero;
-		labelRT.offsetMax = Vector2.zero;
 	}
 
 	private void InitTreePanel(GameObject tree)
