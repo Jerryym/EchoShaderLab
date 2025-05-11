@@ -71,6 +71,8 @@ namespace EchoShaderLab.UI
 		// Start is called before the first frame update
 		void Start()
 		{
+			//初始化命令注册
+			MenuCommandRegistry.Init();
 			//加载XML
 			LoadMenuXML();
 			//生成菜单栏
@@ -127,7 +129,15 @@ namespace EchoShaderLab.UI
 				{
 					CreateButton(subItem.name, subItem.label, dropdownPanel.transform, true, () =>
 					{
-						Debug.Log($"Execute Command: {subItem.cmdName}");
+						var cmd = MenuCommandRegistry.GetCommand(subItem.name);
+						if (cmd != null)
+						{
+							cmd.Execute();
+						}
+						else
+						{
+							Debug.Log($"Execute Command: {subItem.cmdName}");
+						}
 						HideAllDropdowns();
 					});
 				}

@@ -14,7 +14,11 @@ namespace EchoShaderLab
 		/// </summary>
 		public static void Init()
 		{
+			m_CommandMap.Clear();
 
+			//命令注册
+			Register("Cube", new Command.CreateCube());
+			Register("Sphere", new Command.CreateSphere());
 		}
 
 		/// <summary>
