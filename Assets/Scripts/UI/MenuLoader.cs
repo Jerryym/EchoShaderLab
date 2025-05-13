@@ -51,10 +51,6 @@ namespace EchoShaderLab.UI
 	public class MenuLoader : MonoBehaviour
 	{
 		/// <summary>
-		/// 菜单栏容器
-		/// </summary>
-		public Transform menuBar;
-		/// <summary>
 		/// 一级菜单和子菜单按钮预制体
 		/// </summary>
 		public GameObject menuBtnPrefab;
@@ -115,7 +111,7 @@ namespace EchoShaderLab.UI
 			{
 				var	menuItem = m_MenuItems[i];
 				//创建一级按钮
-				GameObject topBtn = CreateButton(menuItem.groupName, menuItem.groupLabel, menuBar, false, null);
+				GameObject topBtn = CreateButton(menuItem.groupName, menuItem.groupLabel, transform, false, null);
 				int index = i;
 				topBtn.GetComponent<Button>().onClick.AddListener(() => OnTopMenuClick(index));
 
@@ -209,7 +205,7 @@ namespace EchoShaderLab.UI
 		private GameObject CreateDropdownPanel(Transform topBtn, string name)
 		{
 			GameObject dropdownPanel = new GameObject("DropdownPanel_" + name, typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(Image));
-			dropdownPanel.transform.SetParent(menuBar.parent, false);
+			dropdownPanel.transform.SetParent(transform.parent, false);
 
 			RectTransform dropRT = dropdownPanel.GetComponent<RectTransform>();
 			dropRT.pivot = new Vector2(0, 1);
@@ -245,7 +241,7 @@ namespace EchoShaderLab.UI
 				dropdownPanel.SetActive(true);
 
 				//更新下拉菜单位置
-				Transform topBtn = menuBar.GetChild(index);
+				Transform topBtn = transform.GetChild(index);
 				RectTransform btnRT = topBtn.GetComponent<RectTransform>();
 				RectTransform dropdownRT = dropdownPanel.GetComponent<RectTransform>();
 

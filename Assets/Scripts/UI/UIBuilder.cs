@@ -111,11 +111,12 @@ public class UIBuilder : MonoBehaviour
 		rt.offsetMax = new Vector2(0, -60); // 顶部预留菜单栏高度
 
 		HorizontalLayoutGroup hLayout = mainContent.AddComponent<HorizontalLayoutGroup>();
-		hLayout.childAlignment = TextAnchor.UpperLeft;
+		hLayout.childAlignment = TextAnchor.MiddleLeft;
 		hLayout.spacing = 4;
 		hLayout.padding = new RectOffset(4, 4, 4, 4);
 		hLayout.childForceExpandWidth = true;
 		hLayout.childForceExpandHeight = true;
+		hLayout.childControlHeight = true;
 
 		mainContent.AddComponent<Image>().color = new Color(0.95f, 0.95f, 0.95f);
 
