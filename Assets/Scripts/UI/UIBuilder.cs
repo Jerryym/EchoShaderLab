@@ -145,7 +145,7 @@ public class UIBuilder : MonoBehaviour
 	private void InitPreviewPanel(GameObject preview)
 	{
 		RectTransform rt = preview.GetComponent<RectTransform>();
-		rt.sizeDelta = new Vector2(0, 0); // 占据剩余空间
+		rt.sizeDelta = new Vector2(1420, 0); // 固定宽度
 
 		Image img = preview.AddComponent<Image>();
 		img.color = new Color(0.95f, 0.95f, 0.95f);
