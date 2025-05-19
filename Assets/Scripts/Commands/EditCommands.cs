@@ -12,6 +12,10 @@ namespace EchoShaderLab.Command
 			GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 			cube.name = "Cube_" + System.Guid.NewGuid().ToString("N").Substring(0, 4);
 			cube.transform.position = Vector3.zero;
+			cube.transform.localScale = Vector3.one;
+
+			//设置图层为previewLayer
+			cube.layer = LayerMask.NameToLayer("PreviewLayer");
 		}
 	}
 
@@ -25,6 +29,9 @@ namespace EchoShaderLab.Command
 			GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			sphere.name = "Sphere_" + System.Guid.NewGuid().ToString("N").Substring(0, 4);
 			sphere.transform.position = Vector3.zero;
+
+			//设置图层为previewLayer
+			sphere.layer = LayerMask.NameToLayer("PreviewLayer");
 		}
 	}
 
