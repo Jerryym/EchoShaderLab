@@ -27,6 +27,11 @@ namespace EchoShaderLab.UI
 		/// </summary>
 		private RenderTexture m_renderTexture;
 
+		/// <summary>
+		/// 控制器
+		/// </summary>
+		private Controller.PreviewController m_controller;
+
 		private void Start()
 		{
 			//初始化RawImage
@@ -35,6 +40,15 @@ namespace EchoShaderLab.UI
 			InitPreviewCamera();
 
 			StartCoroutine(ResizeRenderTexture());
+
+			m_controller = new Controller.PreviewController(m_preivewCamera, m_previewImage);
+		}
+
+		private void Update()
+		{
+			m_controller.SelectObject();
+			m_controller.Zoom();
+			m_controller.Rotation();
 		}
 
 		/// <summary>

@@ -10,6 +10,8 @@
 	<MenuItem name="Edit" label="编辑">
 	  <Item name="Cube" label="立方体" command="CreateCube"/>
 	  <Item name="Sphere" label="球体" command="CreateSphere"/>
+	  <Item name="Cylinder" label="圆柱体" command="CreateCylinder"/>
+	  <Item name="Capsule" label="胶囊体" command="CreateCapsule"/>
 	</MenuItem>
 
 	<MenuItem name="Shadering" label="着色">

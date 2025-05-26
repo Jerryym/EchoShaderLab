@@ -19,6 +19,8 @@ namespace EchoShaderLab
 			//命令注册
 			Register("Cube", new Command.CreateCube());
 			Register("Sphere", new Command.CreateSphere());
+			Register("Cylinder", new Command.CreateCylinder());
+			Register("Capsule", new Command.CreateCapsule());
 		}
 
 		/// <summary>

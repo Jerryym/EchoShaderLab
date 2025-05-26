@@ -35,4 +35,35 @@ namespace EchoShaderLab.Command
 		}
 	}
 
+	/// <summary>
+	/// 创建Cylinder
+	/// </summary>
+	public class CreateCylinder : IMenuCommand
+	{
+		public void Execute()
+		{
+			GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+			cylinder.name = "Cylinder_" + System.Guid.NewGuid().ToString("N").Substring(0, 4);
+			cylinder.transform.position = Vector3.zero;
+
+			//设置图层为previewLayer
+			cylinder.layer = LayerMask.NameToLayer("PreviewLayer");
+		}
+	}
+
+	/// <summary>
+	/// 创建Capsule
+	/// </summary>
+	public class CreateCapsule : IMenuCommand
+	{
+		public void Execute()
+		{
+			GameObject capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+			capsule.name = "Capsule_" + System.Guid.NewGuid().ToString("N").Substring(0, 4);
+			capsule.transform.position = Vector3.zero;
+
+			//设置图层为previewLayer
+			capsule.layer = LayerMask.NameToLayer("PreviewLayer");
+		}
+	}
 }
