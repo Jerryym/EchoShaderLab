@@ -75,7 +75,6 @@ namespace EchoShaderLab.Controller
 					m_originalMaterial = selectedRenderer.material;
 					selectedRenderer.material = m_highlightMaterial;
 				}
-				Debug.Log("选中：" + m_selectedObj.name);
 			}
 		}
 

@@ -86,8 +86,8 @@ namespace EchoShaderLab.UI
 			m_preivewCamera.fieldOfView = 60;
 
 			//设置背景色
-			m_preivewCamera.clearFlags = CameraClearFlags.SolidColor;
-			m_preivewCamera.backgroundColor = Color.gray;
+			m_preivewCamera.clearFlags = CameraClearFlags.Skybox;
+			m_preivewCamera.backgroundColor = Color.blue;
 
 			//渲染指定图层
 			m_preivewCamera.cullingMask = previewLayer;
