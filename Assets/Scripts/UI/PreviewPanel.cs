@@ -49,6 +49,7 @@ namespace EchoShaderLab.UI
 			m_controller.SelectObject();
 			m_controller.Zoom();
 			m_controller.Rotation();
+			m_controller.Dragging();
 		}
 
 		/// <summary>

@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,12 +29,14 @@ namespace EchoShaderLab.Controller
 		/// </summary>
 		private Material m_highlightMaterial;
 
+		private Plane m_dragPlane;
+
 		public PreviewController(Camera camera, RawImage image)
 		{
 			m_Camera = camera;
 			m_Image = image;
 			m_layerMask = LayerMask.GetMask("PreviewLayer");
-			m_highlightMaterial = Resources.Load<Material>("HighlightMat");
+			m_highlightMaterial = Resources.Load<Material>("Materials/HighlightMat");
 		}
 
 		/// <summary>
@@ -103,6 +106,35 @@ namespace EchoShaderLab.Controller
 				float rotY = -Input.GetAxis("Mouse Y") * 5f;
 				m_selectedObj.transform.Rotate(Vector3.up, rotX, Space.World);
 				m_selectedObj.transform.Rotate(Vector3.right, rotY, Space.World);
+			}
+		}
+
+		/// <summary>
+		/// 移动
+		/// </summary>
+		public void Dragging()
+		{
+			if (m_selectedObj != null && Input.GetMouseButton(0))
+			{
+				RectTransform rectTransform = m_Image.GetComponent<RectTransform>();
+				if (!RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition))
+					return;
+
+				RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, null, out Vector2 localPos);
+				Rect rect = rectTransform.rect;
+				Vector2 viewport = new Vector2(localPos.x / rect.width + 0.5f, localPos.y / rect.height + 0.5f);
+				Ray ray = m_Camera.ViewportPointToRay(viewport);
+
+				if (m_dragPlane.Raycast(ray, out float enter))
+				{
+					Vector3 hitPoint = ray.GetPoint(enter);
+					m_selectedObj.transform.position = hitPoint;
+				}
+			}
+
+			if (Input.GetMouseButtonUp(0))
+			{
+				m_selectedObj = null;
 			}
 		}
 	}
