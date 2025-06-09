@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Menu>
+	<MenuItem name="File" label="文件">
+	  <Item name="New" label="新建" command="NewFile"/>
+	  <Item name="Open" label="打开" command="OpenFile"/>
+	  <Item name="Save" label="保存" command="SaveFile"/>
+	  <Item name="Import" label="导入" command="ImportModel"/>
+	</MenuItem>
+
+	<MenuItem name="Edit" label="编辑">
+	  <Item name="Cube" label="立方体" command="CreateCube"/>
+	  <Item name="Sphere" label="球体" command="CreateSphere"/>
+	  <Item name="Cylinder" label="圆柱体" command="CreateCylinder"/>
+	  <Item name="Capsule" label="胶囊体" command="CreateCapsule"/>
+	</MenuItem>
+
+	<MenuItem name="Shadering" label="着色">
+	</MenuItem>
+</Menu>
