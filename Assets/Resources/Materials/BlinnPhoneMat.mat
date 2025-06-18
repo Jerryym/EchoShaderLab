@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpecularPixelLevelMat
-  m_Shader: {fileID: 4800000, guid: f992e90e8f125264fb5c4cbde511cdbc, type: 3}
+  m_Name: BlinnPhoneMat
+  m_Shader: {fileID: 4800000, guid: 8300bb8578aa07349bef06ec9ef48817, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -80,7 +80,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Diffuse: {r: 0.21568628, g: 0.32941177, b: 0.42352942, a: 1}
+    - _Diffuse: {r: 0.21426664, g: 0.32829785, b: 0.4245283, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
